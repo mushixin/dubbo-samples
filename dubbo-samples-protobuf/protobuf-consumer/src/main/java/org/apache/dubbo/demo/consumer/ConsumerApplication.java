@@ -16,20 +16,52 @@
  */
 package org.apache.dubbo.demo.consumer;
 
+import org.apache.dubbo.common.extension.ExtensionLoader;
 import org.apache.dubbo.demo.DemoService;
 import org.apache.dubbo.demo.HelloReply;
 import org.apache.dubbo.demo.HelloRequest;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import java.util.concurrent.CompletableFuture;
+
 public class ConsumerApplication {
     public static void main(String[] args) throws Exception {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/dubbo-consumer.xml");
-        context.start();
+        System.setProperty("jdk.proxy.ProxyGenerator.saveGeneratedFiles", "true");
+
+//        for (int i = 0; i < 5; i++) {
+            ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/dubbo-consumer.xml");
+            context.start();
+
+//            Runnable run = ()->{
         DemoService demoService = context.getBean("demoService", DemoService.class);
         HelloRequest request = HelloRequest.newBuilder().setName("Hello").build();
+        HelloRequest request2 = HelloRequest.newBuilder().setName("Hello2").build();
+        HelloRequest request3 = HelloRequest.newBuilder().setName("Hello3").build();
+
         HelloReply reply = demoService.sayHello(request);
         System.out.println("result: " + reply.getMessage());
-        System.in.read();
+
+//        CompletableFuture<HelloReply> rep = demoService.sayHelloAsync(request);
+//        CompletableFuture<HelloReply> rep2 = demoService.sayHelloAsync(request2);
+//        CompletableFuture<HelloReply> rep3 = demoService.sayHelloAsync(request3);
+//        System.out.println(rep.get().getMessage());
+//        System.out.println(rep2.get().getMessage());
+//        System.out.println(rep3.get().getMessage());
+
+//            };
+//            new Thread(run).start();
+//        }
+
+
+//        ExtensionLoader<Robot> extensionLoader =
+//                ExtensionLoader.getExtensionLoader(Robot.class);
+//        Robot optimusPrime = extensionLoader.getExtension("optimusPrime");
+//        optimusPrime.sayHello();
+//        Robot bumblebee = extensionLoader.getExtension("bumblebee");
+//        bumblebee.sayHello();
+
     }
+
+
 }

@@ -29,13 +29,16 @@ public class JavassistProxy extends ClassLoader {
 
         byte[] bytes = ctClass.toBytecode();
 
+        ctClass.writeFile("C:\\Users\\15809\\Desktop");
+
         return (T) new JavassistProxy().defineClass(clazz.getName(), bytes, 0, bytes.length).newInstance();
     }
 
     public static void main(String[] args) throws Exception {
+        System.setProperty("jdk.proxy.ProxyGenerator.saveGeneratedFiles", "true");
         IUserApi userApi = JavassistProxy.getProxy(UserApi.class);
         String invoke = userApi.queryUserInfo();
-        System.out.println("测试结果：{}"+invoke);
+        System.out.println("测试结果："+invoke);
     }
 
 /**

@@ -18,9 +18,11 @@
 package org.apache.dubbo.samples.basic;
 
 import org.apache.dubbo.common.URL;
+import org.apache.dubbo.common.extension.ExtensionLoader;
 import org.apache.dubbo.samples.basic.api.DemoService;
 import org.apache.dubbo.samples.basic.spi.CompatibleFilter;
 
+import org.apache.dubbo.samples.basic.spi.Robot;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -61,4 +63,17 @@ public class DemoServiceIT {
         Assert.assertEquals("hello", result);
         Assert.assertTrue(CompatibleFilter.invoked);
     }
+    @Test
+    public void testInvoke2() throws Exception {
+        ExtensionLoader<Robot> extensionLoader =
+                ExtensionLoader.getExtensionLoader(Robot.class);
+        Robot optimusPrime = extensionLoader.getExtension("optimusPrime");
+        optimusPrime.sayHello();
+        Robot bumblebee = extensionLoader.getExtension("bumblebee");
+        bumblebee.sayHello();
+    }
+
+
+
+
 }

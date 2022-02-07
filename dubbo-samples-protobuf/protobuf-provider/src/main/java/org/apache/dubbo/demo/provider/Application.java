@@ -22,6 +22,8 @@ import java.util.concurrent.CountDownLatch;
 
 public class Application {
     public static void main(String[] args) throws Exception {
+        System.setProperty("jdk.proxy.ProxyGenerator.saveGeneratedFiles", "true");
+
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/dubbo-provider.xml");
         context.start();
 
